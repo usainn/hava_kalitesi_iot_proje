@@ -24,12 +24,10 @@ ve elde edilen verileri kullanıcıya anlaşılır bir arayüz
 - Scikit-learn / Joblib
 - Arduino IDE
 
-## Bu proje Mühendislikte Bilgisayar Uygulamaları dersi kapsamında geliştirilmiştir.
+## Teşekkür
+- Bu proje Mühendislikte Bilgisayar Uygulamaları dersi kapsamında geliştirilmiştir.
 
-
-
-## Bu proje sürecinde değerli yönlendirmeleri ve katkıları için
-Dr.öğretim Üyesi Halil İbrahim Okur'a teşekkür ederim.
+- Bu proje sürecinde değerli yönlendirmeleri ve katkıları için Dr.öğretim Üyesi Halil İbrahim Okur'a teşekkür ederim.
 ========================================================
 
 
