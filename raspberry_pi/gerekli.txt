@@ -1,4 +1,68 @@
-pyserial
-pandas
-joblib
-requests
+Raspberry Pi – Kurulum ve Çalıştırma (Gerekli Adımlar)
+======================================================
+
+1) Proje Klasörü ve Dosyalar
+---------------------------
+Bu repoda Raspberry Pi üzerinde çalıştırılan dosyalar:
+
+- dashboard.py        : Streamlit tabanlı web arayüzü (grafikler + AI tahmin)
+- alert_telegram.py   : (Opsiyonel) Telegram uyarı modülü
+- train_model.py      : Model eğitimi için kullanılan script (geliştirme aşamasında)
+- sensor_log.csv      : Sensör verilerinin kaydedildiği CSV dosyası (çalışma zamanı üretilir)
+- aq_model.joblib     : Eğitilmiş makine öğrenmesi modeli (dashboard tarafından yüklenir)
+
+Not:
+- venv-air klasörü GitHub'a yüklenmez. Sanal ortam her cihazda yeniden oluşturulur.
+- sensor_log.csv çok büyüyebileceği için GitHub’a tam haliyle koymak yerine örnek veri önerilir.
+
+------------------------------------------------------
+
+2) Gerekli Sistem Hazırlığı
+---------------------------
+Raspberry Pi üzerinde Python 3 kurulu olmalıdır.
+
+Kontrol:
+python3 --version
+
+Gerekirse:
+sudo apt update
+sudo apt install -y python3 python3-pip python3-venv
+
+------------------------------------------------------
+
+3) Sanal Ortam (venv-air) Neden Kullanıldı?
+-------------------------------------------
+- Kütüphane sürüm çakışmalarını önlemek
+- Sistemin Python ortamını bozmamak
+- Projeyi taşınabilir ve stabil tutmak için sanal ortam (venv) kullanılmıştır.
+
+------------------------------------------------------
+
+4) Sanal Ortam Oluşturma ve Paket Kurulumu
+------------------------------------------
+Proje klasöründe:
+
+python3 -m venv venv-air
+source venv-air/bin/activate
+
+Gerekli kütüphaneler:
+pip install streamlit pandas joblib pyserial requests
+
+Kontrol:
+python -c "import streamlit, pandas, joblib, serial, requests; print('OK')"
+
+------------------------------------------------------
+
+5) Sensör Verisi Toplama (Arduino -> Raspberry Pi -> CSV)
+---------------------------------------------------------
+MQ-2, MQ-135 ve DHT (sıcaklık/nem) verileri Arduino tarafından okunur.
+Arduino, verileri Serial (USB) üzerinden Raspberry Pi’ye gönderir.
+Raspberry Pi tarafında veri okuma scripti bu verileri alır ve CSV’ye kaydeder.
+
+CSV dosya yolu örneği:
+/home/pi/sensor_log.csv
+
+CSV kolonları:
+iso_time, unix, temp_c, hum_pct, mq2, mq135
+
+Anlık veriyi ter
