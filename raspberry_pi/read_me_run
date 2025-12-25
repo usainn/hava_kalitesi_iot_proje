@@ -1,0 +1,12 @@
+Raspberry Pi Çalıştırma Talimatı
+
+1) Arduino USB ile Raspberry Pi'ye bağlı olmalıdır.
+2) Seri port /dev/ttyUSB0 veya /dev/ttyACM0 olabilir.
+3) Gerekli kütüphaneler:
+   pip3 install -r requirements.txt
+
+4) Programı çalıştırmak için:
+   python3 veri.py
+
+5) Sistem çalıştığında veriler CSV dosyasına kaydedilir
+   ve kritik durumda Telegram uyarısı gönderilir.
