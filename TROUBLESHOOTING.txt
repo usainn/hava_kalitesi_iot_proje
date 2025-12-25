@@ -1,0 +1,175 @@
+Raspberry Pi – Olası Sorunlar, Uyarılar ve Çözüm Yolları
+=======================================================
+
+Bu dosya, Raspberry Pi üzerinde proje çalıştırılırken
+karşılaşılabilecek yaygın sorunları ve çözüm yöntemlerini
+açıklamak amacıyla hazırlanmıştır.
+
+--------------------------------------------------------
+
+1) Dashboard Açılıyor Ama Veri Güncellenmiyor
+----------------------------------------------
+Sebep:
+- Dashboard (Streamlit) çalışıyor ancak sensör verilerini
+  CSV dosyasına yazan Python scripti çalışmıyor olabilir.
+
+Kontrol:
+ps aux | grep python
+
+Eğer sadece streamlit görünüyor, veri scripti yoksa:
+- Veri toplanmıyordur.
+
+Çözüm:
+source venv-air/bin/activate
+python veri.py
+
+CSV güncelleniyor mu kontrol:
+tail -n 5 /home/pi/sensor_log.csv
+
+--------------------------------------------------------
+
+2) "ModuleNotFoundError" Hatası (pandas, streamlit vb.)
+-------------------------------------------------------
+Sebep:
+- Sanal ortam (venv) aktif değilken Python çalıştırılmıştır.
+
+Örnek hata:
+ModuleNotFoundError: No module named 'pandas'
+
+Çözüm:
+source venv-air/bin/activate
+pip install pandas streamlit joblib pyserial requests
+
+Kontrol:
+python -c "import pandas; print('OK')"
+
+--------------------------------------------------------
+
+3) Seri Port Bulunamadı (Arduino Verisi Gelmiyor)
+-------------------------------------------------
+Sebep:
+- Arduino farklı bir seri portta olabilir
+- USB kablo bağlantısı kopmuş olabilir
+
+Kontrol:
+ls /dev/tty*
+
+Genellikle:
+- /dev/ttyACM0
+- /dev/ttyUSB0
+
+Arduino verisini canlı görmek:
+screen /dev/ttyACM0 9600
+
+Çıkış:
+CTRL + A → K → Y
+
+Not:
+Aynı anda hem screen hem Python scripti
+seri portu kullanamaz.
+
+--------------------------------------------------------
+
+4) CSV Dosyası Oluşuyor Ama İçine Veri Yazılmıyor
+-------------------------------------------------
+Sebep:
+- Python scripti çalışmıyor
+- Dosya yolu yanlış
+- Yazma yetkisi yok
+
+Kontrol:
+ls -lh /home/pi/sensor_log.csv
+
+Dosya boyutu artıyor mu kontrol et:
+watch -n 2 ls -lh /home/pi/sensor_log.csv
+
+--------------------------------------------------------
+
+5) Dashboard Tarayıcıdan Açılmıyor
+----------------------------------
+Sebep:
+- Yanlış IP adresi
+- Streamlit sadece localhost’a bağlı
+
+Çözüm:
+Streamlit’i şu şekilde başlat:
+python -m streamlit run dashboard.py --server.address 0.0.0.0 --server.port 8501
+
+IP öğrenmek:
+hostname -I
+
+Tarayıcıdan:
+http://PI_IP:8501
+
+--------------------------------------------------------
+
+6) Raspberry Pi Yeniden Başlatınca Proje Çalışmıyor
+---------------------------------------------------
+Sebep:
+- Sanal ortam otomatik aktif olmaz
+- Scriptler manuel başlatılmalıdır
+
+Çözüm:
+Her reboot sonrası:
+source venv-air/bin/activate
+python veri.py
+streamlit run dashboard.py
+
+(Not: İleri seviye kullanımda cron veya systemd ile otomatik başlatılabilir.)
+
+--------------------------------------------------------
+
+7) Sensör Değerleri Mantıksız / Sabit Geliyor
+----------------------------------------------
+Sebep:
+- MQ sensörleri ısınma süresini tamamlamamış olabilir
+- Ortam koşulları sabit olabilir
+
+Çözüm:
+- MQ sensörlerini en az 5–10 dakika çalıştır
+- Değerleri terminalden canlı takip et:
+screen /dev/ttyACM0 9600
+
+--------------------------------------------------------
+
+8) OpenWeather API Hatası
+------------------------
+Sebep:
+- API anahtarı tanımlı değil
+- İnternet bağlantısı yok
+
+Hata:
+OPENWEATHER_API_KEY environment variable not found
+
+Çözüm:
+export OPENWEATHER_API_KEY="API_KEY_BURAYA"
+
+Kalıcı yapmak için:
+nano ~/.bashrc
+export OPENWEATHER_API_KEY="API_KEY_BURAYA"
+source ~/.bashrc
+
+--------------------------------------------------------
+
+9) Performans Uyarısı
+--------------------
+Uyarı:
+- sensor_log.csv uzun süre çalıştıkça büyür
+- Çok büyük CSV, dashboard performansını düşürebilir
+
+Öneri:
+- Eski verileri arşivlemek
+- Dashboard’da zaman filtresi (slider) kullanmak
+
+--------------------------------------------------------
+
+10) Genel Güvenlik ve Kullanım Uyarıları
+---------------------------------------
+- venv-air klasörü GitHub’a yüklenmemelidir
+- Gerçek API anahtarları paylaşılmamalıdır
+- Büyük CSV dosyaları örnek veri ile paylaşılmalıdır
+
+--------------------------------------------------------
+
+Bu proje ............ dersi kapsamında geliştirilmiştir.
+========================================================
