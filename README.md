@@ -24,6 +24,15 @@ ve elde edilen verileri kullanıcıya anlaşılır bir arayüz
 - Scikit-learn / Joblib
 - Arduino IDE
 
+## Bu proje Mühendislikte Bilgisayar Uygulamaları dersi kapsamında geliştirilmiştir.
+
+## ÖZEL TEŞEKKÜR:
+
+Bu proje sürecinde değerli yönlendirmeleri ve katkıları için
+Dr.öğretim Üyesi Halil İbrahim Okur'a teşekkür ederim.
+========================================================
+
+
 ## Sistem Nasıl Çalışır?
 1. Arduino, sensörlerden sıcaklık, nem ve gaz verilerini okur.
 2. Okunan veriler seri haberleşme ile Raspberry Pi'ye gönderilir.
@@ -41,13 +50,9 @@ python veri.py
 streamlit run dashboard.py
 
 
-Bu proje Mühendislikte Bilgisayar Uygulamaları dersi kapsamında geliştirilmiştir.
 
-ÖZEL TEŞEKKÜR:
 
-Bu proje sürecinde değerli yönlendirmeleri ve katkıları için
-Dr.öğretim Üyesi Halil İbrahim Okur'a teşekkür ederim.
-========================================================
+
 
 
 
