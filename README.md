@@ -28,7 +28,7 @@ ve elde edilen verileri kullanıcıya anlaşılır bir arayüz
 - Bu proje Mühendislikte Bilgisayar Uygulamaları dersi kapsamında geliştirilmiştir.
 
 - Bu proje sürecinde değerli yönlendirmeleri ve katkıları için Dr.öğretim Üyesi Halil İbrahim Okur'a teşekkür ederim.
-========================================================
+
 
 
 ## Sistem Nasıl Çalışır?
